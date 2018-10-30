@@ -10,18 +10,25 @@ bool Player::play(Card& c) {
 		cout << "Your cards:";
 		for (int i = 0; i < this->num_of_cards; i++)
 		{
-			cout << " (" + to_string(i + 1) + ")" << this->cards.at(i);
+			cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
 		}
 		cout << endl;
 		cin >> choice;
 		if (choice < 1 || choice > num_of_cards) {
-			this->add_cards(1);
-			this->num_of_cards++;
-			return 0;
+			if (this->cs == TAKI) {
+				return 1;
+			}
+			else {
+				this->add_cards(1);
+				this->num_of_cards++;
+				return 0;
+			}
 		}
 		else {
 			chosen_card = this->cards.at(choice - 1);
-			if (c.is_leggal(chosen_card)) {
+			if (this->cs != TAKI)
+				this->cs = chosen_card.get_sign();
+			if (c.is_leggal(chosen_card, this->cs)) {
 				c = chosen_card;
 				this->cards.erase(cards.begin() + choice - 1);
 				this->num_of_cards--;
@@ -29,20 +36,16 @@ bool Player::play(Card& c) {
 					cout << this->name + " wins!" << endl;
 					this->winner = true;
 				}
-				if (chosen_card.get_sign() == PLUS) {
+				if (this->cs == PLUS || this->cs == TAKI) {
 					cout << "current: " << c << endl;
 					continue;
-				}
-				else if (chosen_card.get_sign() == CD) {
-					this->played_cd = true;
-				}
-				else if (chosen_card.get_sign() == STOP) {
-					this->played_stop = true;
 				}
 				return 1;
 			}
 			else {
-				cout << "You can't put " << chosen_card << " on " << c << endl;
+				if (this->cs == TAKI) cout << "You can't put " << chosen_card << " on " << c << " in TAKI mode" << endl;
+				else cout << "You can't put " << chosen_card << " on " << c << endl;
+				this->resetCS();
 			}
 		}
 	}

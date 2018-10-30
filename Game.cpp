@@ -32,17 +32,15 @@ void Game::start() {
 		if (this->players.at(turn).is_winner()) {
 			over = true;
 		}
-		else if (this->players.at(turn).has_played_cd()) {
-			this->players.at(turn).zero_played_cd();
+		else if (this->players.at(turn).getCS() == CD) {
 			direction = -direction;
 		}
-		else if (this->players.at(turn).has_played_stop()) {
-			this->players.at(turn).zero_played_stop();
-			turn = (turn + direction) % num_of_players;
+		else if (this->players.at(turn).getCS() == STOP) {
+			turn += direction;
 		}
-
-		turn = turn + direction;
+		turn += direction;
 		this->normalize_turn();
+		this->players.at(turn).resetCS();
 	}
 
 }

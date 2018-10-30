@@ -6,7 +6,7 @@
 #endif
 Card generate_card() {
 #ifdef RANDOM
-	return Card(color(rand() % 4 + 1), sign(rand() % 13 + 1));
+	return Card(color(rand() % 4 + 1), sign(rand() % 14 + 1));
 #else
 	static int counter = 0;
 	counter++;
@@ -14,10 +14,11 @@ Card generate_card() {
 #endif
 
 }
-bool Card::is_leggal(const Card& other) const {
+bool Card::is_leggal(const Card& other, const sign cs) const {
 	bool ret = false;
 	ret |= (get_color() == other.get_color());
-	ret |= (get_sign() == other.get_sign());
+	if (cs != TAKI)
+		ret |= (get_sign() == other.get_sign());
 	return ret;
 }
 ostream& operator << (ostream &os, const Card &c) {
@@ -33,7 +34,7 @@ ostream& operator << (ostream &os, const Card &c) {
 		SetConsoleTextAttribute(hstdout, 0x7C);
 		break;
 	case G:
-		SetConsoleTextAttribute(hstdout, 0x7A);
+		SetConsoleTextAttribute(hstdout, 0x73);
 		break;
 	case B:
 		SetConsoleTextAttribute(hstdout, 0x79);
@@ -57,6 +58,9 @@ ostream& operator << (ostream &os, const Card &c) {
 		break;
 	case TAKI:
 		os << "TAKI";
+		break;
+	case PLUSTWO:
+		os << "2+";
 		break;
 	default:
 		os << c.s;

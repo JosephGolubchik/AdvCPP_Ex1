@@ -9,21 +9,18 @@ private:
 	string name;
 	int num_of_cards;
 	bool winner = false;
-	bool played_cd = false;
-	bool played_stop = false;
+	sign cs;
 	//vector of cards
 	vector<Card> cards;
 
 public:
 	//public members
-	Player(string name, int num_of_cards) :name(name), num_of_cards(num_of_cards) {};
+	Player(string name, int num_of_cards) :name(name), num_of_cards(num_of_cards), cs(NAS) {};
 	bool play(Card&);
 	void add_cards(int num_of_cards);
 	bool is_winner() { return winner; }
-	bool has_played_cd() { return played_cd; }
-	bool has_played_stop() { return played_stop; }
-	void zero_played_cd() { this->played_cd = false; }
-	void zero_played_stop() { this->played_stop = false; }
+	sign getCS() { return cs; }
+	void resetCS() { cs = NAS; }
 };
 #endif
 
