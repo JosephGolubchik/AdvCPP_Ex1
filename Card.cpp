@@ -1,6 +1,6 @@
 #include "Card.h"
 #define RANDOM
-#define WINDOWS
+// #define WINDOWS
 #ifdef WINDOWS
 #include <windows.h>
 #endif
@@ -70,16 +70,17 @@ ostream& operator << (ostream &os, const Card &c) {
 #else
 	switch (c.clr) {
 	case R:
-		os << "R-";
+		// os << "R-";
+		os << "\033[1;38;2;255;20;0;48;2;70;70;70m";
 		break;
 	case G:
-		os << "G-";
+		os << "\033[1;38;2;24;232;31;48;2;70;70;70m";
 		break;
 	case B:
-		os << "B-";
+		os << "\033[1;38;2;0;175;250;48;2;70;70;70m";
 		break;
 	case Y:
-		os << "Y-";
+		os << "\033[1;38;2;255;202;28;48;2;70;70;70m";
 		break;
 	default:
 		os << c.clr << " error";
@@ -88,18 +89,27 @@ ostream& operator << (ostream &os, const Card &c) {
 	switch (c.s) {
 	case PLUS:
 		os << "+";
+		cout << "\033[0m";
 		break;
 	case STOP:
 		os << "STP";
+		cout << "\033[0m";
 		break;
 	case CD:
 		os << "-><-";
+		cout << "\033[0m";
 		break;
 	case TAKI:
 		os << "TAKI";
+		cout << "\033[0m";
+		break;
+	case PLUSTWO:
+		os << "2+";
+		cout << "\033[0m";
 		break;
 	default:
 		os << c.s;
+		cout << "\033[0m";
 	}
 #endif
 	return os;
