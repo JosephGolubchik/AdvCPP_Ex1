@@ -1,4 +1,5 @@
 #include "Player.h"
+// #define WINDOWS
 
 bool Player::play(Card& c) {
 	int choice;
@@ -10,7 +11,11 @@ bool Player::play(Card& c) {
 		cout << "Your cards:";
 		for (int i = 0; i < this->num_of_cards; i++)
 		{
-			cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
+			#ifdef WINDOWS
+				cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
+			#else
+				cout << "\033[38;2;150;150;150m(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
+				cout << "\033[0m";
 		}
 		cout << endl;
 		cin >> choice;
