@@ -16,6 +16,7 @@ bool Player::play(Card& c) {
 			#else
 				cout << "\033[38;2;150;150;150m(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
 				cout << "\033[0m";
+			#endif
 		}
 		cout << endl;
 		cin >> choice;
