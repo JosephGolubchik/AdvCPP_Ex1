@@ -20,7 +20,7 @@ void Game::start() {
 		for (int i = 0; i < this->num_of_players; i++)
 		{
 			string name;
-			cout << "Player number " + to_string(i + 1) + " name?" << endl;
+			cout << "Player number " + to_string((long long)(i + 1)) + " name?" << endl;
 			cin >> name;
 			this->players.push_back(Player(name, init_num_of_cards));
 			this->players.at(i).add_cards(init_num_of_cards);
