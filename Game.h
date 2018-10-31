@@ -9,12 +9,12 @@ private:
 	int direction;
 	int num_of_players;
 	int init_num_of_cards;
-	bool over = false;
+	bool over;
 	Card current;
 	vector<Player> players;
 public:
 	//public members and functions
-	Game() :turn(0), direction(1) {};
+	Game() :turn(0), direction(1), over(false) {};
 	void start();
 	void normalize_turn();
 };
