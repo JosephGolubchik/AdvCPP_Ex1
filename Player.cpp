@@ -14,7 +14,7 @@ bool Player::play(Card& c) {
 			#ifdef WINDOWS
 				cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
 			#else
-				cout << "\033[38;2;150;150;150m(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
+				cout << "\033[38;2;150;150;150m(" + to_string((long long)(i + 1)) + ")" << this->cards.at(i) << " ";
 				cout << "\033[0m";
 			#endif
 		}
