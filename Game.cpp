@@ -1,7 +1,6 @@
 #include "Game.h"
 
 void Game::start() {
-	current = generate_card();
 	cout << "How many players?" << endl;
 	cin >> this->num_of_players;
 	if (this->num_of_players <= 0) {
@@ -20,7 +19,7 @@ void Game::start() {
 		for (int i = 0; i < this->num_of_players; i++)
 		{
 			string name;
-			cout << "Player number " + to_string((long long)(i + 1)) + " name?" << endl;
+			cout << "player number " + to_string((long long)(i + 1)) + " name?" << endl;
 			cin >> name;
 			this->players.push_back(Player(name, init_num_of_cards));
 			this->players.at(i).add_cards(init_num_of_cards);
