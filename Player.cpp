@@ -6,19 +6,18 @@ bool Player::play(Card& c) {
 	Card chosen_card;
 	cout << "current: " << c << endl;
 	cout << this->name + ", your turn -" << endl;
-
-	while (true) {
-		cout << "Your cards:";
+	cout << "Your cards: ";
 		for (int i = 0; i < this->num_of_cards; i++)
 		{
 			#ifdef WINDOWS
 				cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
 			#else
-				cout << "\033[38;2;150;150;150m(" + to_string((long long)(i + 1)) + ")" << this->cards.at(i) << " ";
-				cout << "\033[0m";
+				cout << "(" + to_string((long long)(i + 1)) + ")" << this->cards.at(i) << " ";
 			#endif
 		}
-		cout << endl;
+	cout << endl;
+
+	while (true) {
 		cin >> choice;
 		if (choice < 1 || choice > num_of_cards) {
 			if (this->cs == TAKI) {
@@ -32,9 +31,22 @@ bool Player::play(Card& c) {
 		}
 		else {
 			chosen_card = this->cards.at(choice - 1);
-			if (this->cs != TAKI)
+			if (this->cs != TAKI) {
 				this->cs = chosen_card.get_sign();
-			if (c.is_leggal(chosen_card, this->cs)) {
+			}
+			if(this->cs == TAKI) {
+				if (chosen_card.get_color() == c.get_color()) {
+					c = chosen_card;
+				this->cards.erase(cards.begin() + choice - 1);
+				this->num_of_cards--;
+				if (this->num_of_cards == 0) {
+					cout << this->name + " wins!" << endl;
+					this->winner = true;
+				}
+				return 1;
+				}
+			}
+			else if (c.is_leggal(chosen_card)) {
 				c = chosen_card;
 				this->cards.erase(cards.begin() + choice - 1);
 				this->num_of_cards--;
@@ -42,8 +54,19 @@ bool Player::play(Card& c) {
 					cout << this->name + " wins!" << endl;
 					this->winner = true;
 				}
-				if (this->cs == PLUS || this->cs == TAKI) {
+				if ((this->cs == PLUS || this->cs == TAKI) && !(this->cards.empty())) {
 					cout << "current: " << c << endl;
+					cout << this->name + ", your turn -" << endl;
+					cout << "Your cards: ";
+						for (int i = 0; i < this->num_of_cards; i++)
+						{
+							#ifdef WINDOWS
+								cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
+							#else
+								cout << "(" + to_string((long long)(i + 1)) + ")" << this->cards.at(i) << " ";
+							#endif
+						}
+					cout << endl;
 					continue;
 				}
 				return 1;
