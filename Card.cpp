@@ -1,5 +1,5 @@
 #include "Card.h"
-#define RANDOM
+// #define RANDOM
 // #define WINDOWS
 #ifdef WINDOWS
 #include <windows.h>

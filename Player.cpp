@@ -1,89 +1,81 @@
+/* Yosef Golubchik 209195353 */
+
 #include "Player.h"
-// #define WINDOWS
 
 bool Player::play(Card& c) {
 	int choice;
 	Card chosen_card;
+	
 	cout << "current: " << c << endl;
 	cout << this->name + ", your turn -" << endl;
 	cout << "Your cards: ";
-		for (int i = 0; i < this->num_of_cards; i++)
-		{
-			#ifdef WINDOWS
-				cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
-			#else
-				cout << "(" + to_string((long long)(i + 1)) + ")" << this->cards.at(i) << " ";
-			#endif
-		}
+	for (int i = 0; i < this->num_of_cards; i++) {
+		cout << "(" + to_string( (long long)(i + 1) ) + ")" << this->cards.at(i) << " ";
+	}
 	cout << endl;
 
 	while (true) {
+		// Get player's choise of card
 		cin >> choice;
+		
+		// If the player chose a card number outside the range
 		if (choice < 1 || choice > num_of_cards) {
-			if (this->cs == TAKI) {
-				return 1;
-			}
-			else {
-				this->add_cards(1);
-				this->num_of_cards++;
-				return 0;
-			}
+			this->add_cards(1);
+			this->num_of_cards++;
+			return 0;
 		}
+		
+		// If the player chose a card number inside the range
 		else {
+			// Choose card number 'choice' from the player's deck
 			chosen_card = this->cards.at(choice - 1);
-			if (this->cs != TAKI) {
-				this->cs = chosen_card.get_sign();
-			}
-			if(this->cs == TAKI) {
-				if (chosen_card.get_color() == c.get_color()) {
-					c = chosen_card;
-				this->cards.erase(cards.begin() + choice - 1);
-				this->num_of_cards--;
-				if (this->num_of_cards == 0) {
-					cout << this->name + " wins!" << endl;
-					this->winner = true;
-				}
-				return 1;
-				}
-			}
-			else if (c.is_leggal(chosen_card)) {
+			
+			// If the chosen card can be placed
+			if (c.is_leggal(chosen_card)) {
+				// Change the current card to be the chosen card
 				c = chosen_card;
+				// Set current player's sign to the current card's sign
+				curr_sign = c.get_sign();
+				// Erase the chosen card from current player's deck
 				this->cards.erase(cards.begin() + choice - 1);
 				this->num_of_cards--;
-				if (this->num_of_cards == 0) {
-					cout << this->name + " wins!" << endl;
-					this->winner = true;
-				}
-				if ((this->cs == PLUS || this->cs == TAKI) && !(this->cards.empty())) {
-					cout << "current: " << c << endl;
-					cout << this->name + ", your turn -" << endl;
-					cout << "Your cards: ";
-						for (int i = 0; i < this->num_of_cards; i++)
-						{
-							#ifdef WINDOWS
-								cout << "(" + to_string(i + 1) + ")" << this->cards.at(i) << " ";
-							#else
-								cout << "(" + to_string((long long)(i + 1)) + ")" << this->cards.at(i) << " ";
-							#endif
-						}
-					cout << endl;
-					continue;
-				}
+				
 				return 1;
 			}
+			
+			// If the chosen card can't be placed
 			else {
-				if (this->cs == TAKI) cout << "You can't put " << chosen_card << " on " << c << " in TAKI mode" << endl;
-				else cout << "You can't put " << chosen_card << " on " << c << endl;
-				this->resetCS();
+				cout << "You can't put " << chosen_card << " on " << c << endl;
 			}
 		}
 	}
 	
 }
 
-void Player::add_cards(int num_of_cards) {
+void Player::add_cards(const int& num_of_cards) {
 	for (int i = 0; i < num_of_cards; i++)
 	{
 		this->cards.push_back(generate_card());
 	}
 }
+
+Player::Player(const Player& p) {
+	name = p.name;
+	num_of_cards = p.num_of_cards;
+	curr_sign = p.curr_sign;
+	for (int i = 0; i < p.cards.size(); i++) {
+		cards.push_back(p.cards.at(i));
+	}
+}
+
+Player Player::operator= (const Player& p) {
+	name = p.name;
+	num_of_cards = p.num_of_cards;
+	curr_sign = p.curr_sign;
+	cards.clear();
+	for (int i = 0; i < p.cards.size(); i++) {
+		cards.push_back(p.cards.at(i));
+	}
+	return *this;
+}
+

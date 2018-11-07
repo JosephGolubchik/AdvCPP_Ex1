@@ -2,8 +2,8 @@ CXX=g++
 CXXFLAGS=-std=c++0x
 
 all: main.o Card.o Game.o Player.o
-	$(CXX) main.o Card.o Game.o Player.o -o taki
-	./taki
+	$(CXX) main.o Card.o Game.o Player.o
+	./a.out
 
 Card.o: Card.cpp Card.h
 	$(CXX) $(CXXFLAGS) -c Card.cpp -o Card.o
